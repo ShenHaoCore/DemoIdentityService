@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityService2", "Identit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityService1", "IdentityService1\IdentityService1.csproj", "{989D3341-9F59-44BB-ADC9-6ACCB0D689AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityService3", "IdentityService3\IdentityService3.csproj", "{F1FFE016-61AB-467D-83EC-5D54E82F8FC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityService3", "IdentityService3\IdentityService3.csproj", "{F1FFE016-61AB-467D-83EC-5D54E82F8FC4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
