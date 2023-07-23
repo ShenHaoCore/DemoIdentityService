@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityService3.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [SecurityHeaders]
     [AllowAnonymous]
     public class HomeController : Controller
