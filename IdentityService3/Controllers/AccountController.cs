@@ -155,7 +155,7 @@ namespace IdentityService3.Controllers
             if (vm.TriggerExternalSignout)
             {
                 string url = Url.Action("Logout", new { logoutId = vm.LogoutId })!;
-                return SignOut(new AuthenticationProperties { RedirectUri = url }, vm.ExternalAuthenticationScheme);
+                return SignOut(new AuthenticationProperties { RedirectUri = url }, vm.ExternalAuthenticationScheme!);
             }
 
             return View("LoggedOut", vm);
@@ -171,42 +171,23 @@ namespace IdentityService3.Controllers
             return View();
         }
 
-
-        /*****************************************/
-        /* helper APIs for the AccountController */
-        /*****************************************/
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         private async Task<LoginViewModel> BuildLoginViewModelAsync(string returnUrl)
         {
             var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
             if (context?.IdP != null && await _schemeProvider.GetSchemeAsync(context.IdP) != null)
             {
                 var local = context.IdP == IdentityServer4.IdentityServerConstants.LocalIdentityProvider;
-
-                // this is meant to short circuit the UI and only trigger the one external IdP
-                var vm = new LoginViewModel
-                {
-                    EnableLocalLogin = local,
-                    ReturnUrl = returnUrl,
-                    Username = context?.LoginHint,
-                };
-
-                if (!local)
-                {
-                    vm.ExternalProviders = new[] { new ExternalProvider { AuthenticationScheme = context.IdP } };
-                }
-
+                var vm = new LoginViewModel { EnableLocalLogin = local, ReturnUrl = returnUrl, Username = context?.LoginHint! };
+                if (!local) { vm.ExternalProviders = new[] { new ExternalProvider { AuthenticationScheme = context!.IdP } }; }
                 return vm;
             }
-
             var schemes = await _schemeProvider.GetAllSchemesAsync();
-
-            var providers = schemes
-                .Where(x => x.DisplayName != null)
-                .Select(x => new ExternalProvider
-                {
-                    DisplayName = x.DisplayName ?? x.Name,
-                    AuthenticationScheme = x.Name
-                }).ToList();
+            var providers = schemes.Where(x => x.DisplayName != null).Select(x => new ExternalProvider { DisplayName = x.DisplayName ?? x.Name, AuthenticationScheme = x.Name }).ToList();
 
             var allowLocal = true;
             if (context?.Client.ClientId != null)
@@ -233,6 +214,11 @@ namespace IdentityService3.Controllers
             };
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         private async Task<LoginViewModel> BuildLoginViewModelAsync(LoginInputModel model)
         {
             var vm = await BuildLoginViewModelAsync(model.ReturnUrl);

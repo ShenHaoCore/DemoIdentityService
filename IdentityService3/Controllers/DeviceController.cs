@@ -132,7 +132,7 @@ namespace IdentityService3.Controllers
             }
             else
             {
-                result.ViewModel = await BuildViewModelAsync(model.UserCode, model);
+                result.ViewModel = await BuildViewModelAsync(model.UserCode!, model);
             }
 
             return result;
